@@ -87,5 +87,5 @@ for row,vendor in enumerate(caterer_list):
                 #print(key + " -> " + value)
                 sheet.write(row+1,attrbs.index(key),value)
 
-doc.save("theknotDATA.xlsx")
+doc.save("data.xlsx")
 
