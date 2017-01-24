@@ -1,9 +1,8 @@
 import requests, bs4
 import xlwt as xl
 
-domain = "https://www.theknot.com"
-base_url = domain + "/marketplace/catering-san-francisco-ca"
-
+base_url = "https://www.theknot.com"
+vendor_url = base_url + "/marketplace/catering-san-francisco-ca"
 caterer_list = []
 
 def getSoup(url):
@@ -22,7 +21,7 @@ def getData(url):
 		caterer_info = {}
 		
 		#Getting link
-		link = domain + i.find('a').get('href')
+		link = base_url + i.find('a').get('href')
 		print(link)
 		#Requesting this link
 		nxtsoup = getSoup(link)
@@ -63,20 +62,20 @@ def getData(url):
 		caterer_list.append(caterer_info)
 		
 #Getting Total Vendors
-soup = getSoup(base_url)
+soup = getSoup(vendor_url)
 total_vendors = int(soup.select('#vendor-count')[0].getText().split(' ')[0])
 
 #Offset used in chaging page numbers
 #Switching Page Numbers
-for offset in range(0,total_vendors,30):
-	url = base_url + '?offset=' + str(offset)
+for offset in range(0, total_vendors, 30):
+	url = vendor_url + '?offset=' + str(offset)
 	getData(url)
 
 #Printing Each Dictionary item in list
 doc = xl.Workbook()
 sheet = doc.add_sheet("Vendor List")
-attrbs = ['Name','Price Range','Cuisine','Dietary Options','Wedding Categories','Address','Phone','WEBSITE','FACEBOOK','TWITTER','INSTAGRAM','PINTEREST']
-for i,j in enumerate(attrbs):
+attrs = ['Name','Price Range','Cuisine','Dietary Options','Wedding Categories','Address','Phone','WEBSITE','FACEBOOK','TWITTER','INSTAGRAM','PINTEREST']
+for i,j in enumerate(attrs):
 	sheet.write(0,i,j)
 
 for row,vendor in enumerate(caterer_list):
