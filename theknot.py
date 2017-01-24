@@ -14,7 +14,7 @@ def getSoup(url):
 def getData(url):
         soup = getSoup(url)
         s = soup.select('.card-container')
-        for i in s[:3]: #Taking slice of 3 per page for testing
+        for i in s: #Taking slice of 3 per page for testing
                 #print("*************************************************")
                 #container
                 caterer_info = {}
@@ -78,5 +78,5 @@ for row,vendor in enumerate(caterer_list):
                 #print(key + " -> " + value)
                 sheet.write(row+1,attrbs.index(key),value)
 
-doc.save("theknotDATA.xlsx")
+doc.save("data.xlsx")
 
