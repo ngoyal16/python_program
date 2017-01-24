@@ -13,8 +13,6 @@ def getSoup(url):
 
 def getData(url):
         soup = getSoup(url)
-        #print(total_vendors)
-        
         s = soup.select('.card-container')
         for i in s: #Taking slice of 3 per page for testing
                 #print("*************************************************")
@@ -62,16 +60,9 @@ def getData(url):
                         caterer_info[i.getText()] = i.find('a').get('href')
 
                 caterer_list.append(caterer_info)
-        
+
 #Offset used in chaging page numbers
-
-#Getting Total Vendors
-url = 'https://www.theknot.com/marketplace/catering-san-francisco-ca'
-soup = getSoup(url)
-total_vendors = int(soup.select('#vendor-count')[0].getText().split(' ')[0])
-
-#Switching Page Numbers
-for offset in range(0,total_vendors,30):
+for offset in range(0,31,30):
         url = 'https://www.theknot.com/marketplace/catering-san-francisco-ca?offset='+str(offset)
         getData(url)
 
@@ -87,5 +78,5 @@ for row,vendor in enumerate(caterer_list):
                 #print(key + " -> " + value)
                 sheet.write(row+1,attrbs.index(key),value)
 
-doc.save("theknotDATA.xlsx")
+doc.save("data.xlsx")
 
