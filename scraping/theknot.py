@@ -2,6 +2,7 @@ import requests, bs4
 import xlwt as xl
 
 domain = "https://www.theknot.com"
+base_url = domain + "/marketplace/catering-san-francisco-ca"
 
 caterer_list = []
 
@@ -62,14 +63,13 @@ def getData(url):
 		caterer_list.append(caterer_info)
 		
 #Getting Total Vendors
-url = 'https://www.theknot.com/marketplace/catering-san-francisco-ca'
-soup = getSoup(url)
+soup = getSoup(base_url)
 total_vendors = int(soup.select('#vendor-count')[0].getText().split(' ')[0])
 
 #Offset used in chaging page numbers
 #Switching Page Numbers
 for offset in range(0,total_vendors,30):
-	url = 'https://www.theknot.com/marketplace/catering-san-francisco-ca?offset='+str(offset)
+	url = base_url + '?offset=' + str(offset)
 	getData(url)
 
 #Printing Each Dictionary item in list
