@@ -1,7 +1,7 @@
 import requests, os
 from bs4 import BeautifulSoup
 from math import ceil
-
+from version3 import getDigitalData
 
 def getQueryformat(data):
     for i in range(len(data)):
@@ -25,7 +25,7 @@ max_salary = ''
 
 def getSoup(p):
     headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-    url = 'http://www.jobsite.co.uk/vacancies?search_type=advanced&engine=stepmatch&search_referer=external-other'+keywords+'&logic=any'+location+'&radius='+radius+title+'&title_logic=any'+'&p='+p+'&daysback=A&sort_by=relevance&search_currency_code=GBP&salary_type_unit=A&salary_min='+min_salary+'&salary_max='+max_salary+vacancy_type+sector 
+    url = base_url+'/vacancies?search_type=advanced&engine=stepmatch&search_referer=external-other'+keywords+'&logic=any'+location+'&radius='+radius+title+'&title_logic=any'+'&daysback=A&sort_by=relevance&search_currency_code=GBP&salary_type_unit=A&salary_min='+min_salary+'&salary_max='+max_salary+vacancy_type+sector+'&p='+p 
     #print(url)
     res = requests.get(url, headers = headers)
     res.raise_for_status()
@@ -33,8 +33,8 @@ def getSoup(p):
     return soup
 
 
-#total_pages = 1
-total_pages = ceil(int(getSoup(1).select('.resultsTotal strong')[1].getText()) / 25)
+total_pages = 1
+#total_pages = ceil(int(getSoup(1).select('.resultsTotal strong')[1].getText()) / 25)
 for page in range(1,total_pages+1):
     soup = getSoup(str(page))
     jobs = soup.findAll('div', {'class':'lineage vacRow clearfix job'})
@@ -56,5 +56,6 @@ for page in range(1,total_pages+1):
         print('Salary      => %s\n' % salary)
         print('Location    => %s\n' % location)
         print('Date Posted => %s\n' % date)
-        print('Job Type    => %s\n' % jobType)     
+        print('Job Type    => %s\n' % jobType)
+        getDigitalData(base_url+link)
 
