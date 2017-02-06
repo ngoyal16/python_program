@@ -1,7 +1,7 @@
 import requests, os
 from bs4 import BeautifulSoup
 from math import ceil
-from digitalData import getDigitalData
+from digitaldata import getDigitalData
 
 def getQueryformat(data):
     for i in range(len(data)):
@@ -52,9 +52,6 @@ for page in range(1,total_pages+1):
         data['Date Posted'] = jobs[i].select('.vacPosted')[1].getText()
         data['Job Type'] = jobs[i].select('.vacType')[1].getText()
 
-        data += getDigitalData(base_url+data['Link'])
-        
-        for i,j in data.items():
-            print(i + ' => ' + j)
+        data.update(getDigitalData(base_url+link))
         #print(getDigitalData(base_url+link))
         
