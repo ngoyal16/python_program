@@ -1,7 +1,7 @@
 import requests, os
 from bs4 import BeautifulSoup
 from math import ceil
-from digitalData import getDigitalData
+from digitaldata import getDigitalData
 
 def getQueryformat(data):
     for i in range(len(data)):
@@ -42,22 +42,16 @@ for page in range(1,total_pages+1):
     print(len(jobs))
 
     for i in range(len(jobs)):
+        data = {}
         print('-------------------------------------------\n')
-        link = jobs[i].select('a')[0].get('href')
-        position = jobs[i].select('a')[0].getText()
-        jobDesc = jobs[i].select('p')[0].getText()
-        salary = jobs[i].select('.vacSalary')[1].getText()
-        location = jobs[i].select('.vacLocation')[1].getText()
-        date = jobs[i].select('.vacPosted')[1].getText()
-        jobType = jobs[i].select('.vacType')[1].getText()
-        
-        print(getDigitalData(base_url+link))
-        
-        print('Position    => %s\n' % position)
-        print('Link        => %s\n' % (base_url+link))
-        print('JobDesc     => %s\n' % jobDesc)
-        print('Salary      => %s\n' % salary)
-        print('Location    => %s\n' % location)
-        print('Date Posted => %s\n' % date)
-        print('Job Type    => %s\n' % jobType)
+        data['Link'] = jobs[i].select('a')[0].get('href')
+        data['Position'] = jobs[i].select('a')[0].getText()
+        data['JobDesc'] = jobs[i].select('p')[0].getText()
+        data['Salary'] = jobs[i].select('.vacSalary')[1].getText()
+        data['Location'] = jobs[i].select('.vacLocation')[1].getText()
+        data['Date Posted'] = jobs[i].select('.vacPosted')[1].getText()
+        data['Job Type'] = jobs[i].select('.vacType')[1].getText()
+
+        data += getDigitalData(base_url+link)
+        #print(getDigitalData(base_url+link))
         
