@@ -10,8 +10,6 @@ import json
 import re
 from bs4 import BeautifulSoup
 
-url = "http://www.jobsite.co.uk/job/tableau-data-analyst-957483369?src=search&tmpl=sem&sctr=IT&position=25&page=1&engine=stepmatch&search_referer=external-other"
-
 def getDigitalData(url):
     pattern = re.compile('var digitalData = .*')
 
@@ -27,5 +25,3 @@ def getDigitalData(url):
             data = scriptData.split(" if (")[0]
             data = data.lstrip("var digitalData = ")
             print(data)
-
-#getDigitalData(url)
