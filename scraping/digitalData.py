@@ -15,7 +15,7 @@ def getDigitalData(url):
         scriptData = str(script.string).strip().replace('\n', ' ')
         if(pattern.match(scriptData)):
             data = re.sub(r"\s+", " ",  scriptData)
-            data = data.split(" if (")[0]
+            data = data.split("} if (")[0]
             data = data.lstrip("var digitalData = ")
             data = data.split(',')
             digitalData = {}
