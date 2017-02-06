@@ -52,7 +52,7 @@ for page in range(1,total_pages+1):
         data['Date Posted'] = jobs[i].select('.vacPosted')[1].getText()
         data['Job Type'] = jobs[i].select('.vacType')[1].getText()
 
-        data.update(getDigitalData(base_url+link))
+        data.update(getDigitalData(base_url+data['Link']))
         
         for i,j in data.items():
             print(i + ' => ' + j)
