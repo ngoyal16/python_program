@@ -15,12 +15,14 @@ f.write(soup.prettify())
 f.close()
 
 f = open('/home/imnobody0396/Desktop/src.txt', 'r')
-c = 0
+flag = False
 for i in f.readlines():
-    if c>2:
+    if flag == True and ':' in i:
+        print(''.join(i.split(' ')))
+    if 'var digitalData' in i:
+        flag = True
+    if '}' in i and flag == True:
+        flag = False
         break
-    if 'discipline' in i.lower():
-        print(i)
-        c += 1
         
 f.close()
