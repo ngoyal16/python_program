@@ -50,6 +50,9 @@ for page in range(1,total_pages+1):
         location = jobs[i].select('.vacLocation')[1].getText()
         date = jobs[i].select('.vacPosted')[1].getText()
         jobType = jobs[i].select('.vacType')[1].getText()
+        
+        print(getDigitalData(base_url+link))
+        
         print('Position    => %s\n' % position)
         print('Link        => %s\n' % (base_url+link))
         print('JobDesc     => %s\n' % jobDesc)
@@ -57,5 +60,4 @@ for page in range(1,total_pages+1):
         print('Location    => %s\n' % location)
         print('Date Posted => %s\n' % date)
         print('Job Type    => %s\n' % jobType)
-        getDigitalData(base_url+link)
-
+        
