@@ -11,6 +11,7 @@ def getDigitalData(url):
     soup = BeautifulSoup(res.text, 'lxml')
     scripts = soup.find_all('script')
 
+    digitalData = {}
     for script in scripts:
         scriptData = str(script.string).strip().replace('\n', ' ')
         if(pattern.match(scriptData)):
@@ -18,9 +19,10 @@ def getDigitalData(url):
             data = data.split("} if (")[0]
             data = data.lstrip("var digitalData = ")
             data = data.split(',')
-            digitalData = {}
+            
             for i in range(len(data)):
                 subdata = data[i].split(',')[0].split(': ')
                 subdata[0] = subdata[0][subdata[0].find(' ')+1:]
                 digitalData[subdata[0]] = (subdata[1]).replace('\"', '')
-            return(digitalData)
+                
+    return(digitalData)
