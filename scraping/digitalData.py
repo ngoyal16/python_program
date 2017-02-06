@@ -22,5 +22,6 @@ def getDigitalData(url):
             for i in range(len(data)):
                 subdata = data[i].split(',')[0].split(': ')
                 subdata[0] = subdata[0][subdata[0].find(' ')+1:]
+                subdata[1] = (subdata[1]).replace('\"', '')
                 digitalData[subdata[0]] = subdata[1]
             return(digitalData)
