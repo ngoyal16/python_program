@@ -21,7 +21,7 @@ soup = BeautifulSoup(res.text, 'lxml')
 scripts = soup.find_all('script')
 
 for script in scripts:
-	scriptData = str(script.string).strip()  #.replace('\n', ' ')
+	scriptData = str(script.string).strip().replace('\n', ' ')
 	if(pattern.match(scriptData)):
-		data = scriptData
+		data = scriptData.split(" if (")[0]
 		print(data)
