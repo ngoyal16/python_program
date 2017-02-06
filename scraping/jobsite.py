@@ -53,5 +53,8 @@ for page in range(1,total_pages+1):
         data['Job Type'] = jobs[i].select('.vacType')[1].getText()
 
         data.update(getDigitalData(base_url+link))
+        
+        for i,j in data.items():
+            print(i + ' => ' + j)
         #print(getDigitalData(base_url+link))
         
