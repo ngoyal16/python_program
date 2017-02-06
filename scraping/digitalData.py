@@ -1,14 +1,7 @@
-import sys
-import requests, os
-
-if sys.version_info[0] == 3:
-    from urllib.request import urlopen
-else:
-    from urllib import urlopen
-
-import json
+import requests
 import re
 from bs4 import BeautifulSoup
+
 
 def getDigitalData(url):
     pattern = re.compile('var digitalData = .*')
@@ -24,4 +17,5 @@ def getDigitalData(url):
         if(pattern.match(scriptData)):
             data = scriptData.split(" if (")[0]
             data = data.lstrip("var digitalData = ")
-            print(data)
+            return(data)
+
