@@ -1,7 +1,7 @@
 import requests, os
 from bs4 import BeautifulSoup
 from math import ceil
-from digitaData import getDigitalData
+from digitalData import getDigitalData
 
 def getQueryformat(data):
     for i in range(len(data)):
