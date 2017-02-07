@@ -1,14 +1,15 @@
 import pycurl
+from io import BytesIO
 from urllib.parse import urlencode
 
-base_url = 'http://54.152.49.226:7000/auth/register'
+base_url = 'http://54.152.49.226:7000'
 
-def post():
+def register(username, password, fullname):
     c = pycurl.Curl()
-    c.setopt(c.URL, base_url)
-    post_data = {'username' : 'Gotiya',
-                 'password' : 'helloworld',
-                 'fullname' : 'Hello World'}
+    c.setopt(c.URL, base_url + '/auth/register')
+    post_data = {'username' : username,
+                 'password' : password,
+                 'fullname' : fullname}
     # Form data must be provided already urlencoded.
     postfields = urlencode(post_data)
     # Sets request method to POST,
@@ -20,6 +21,22 @@ def post():
     print('Status: %d' % c.getinfo(c.RESPONSE_CODE))
     c.close()
 
-post()
 
+def login(username, password):
+    buffer = BytesIO()
+    c = pycurl.Curl()
+    c.setopt(c.URL, base_url + '/auth/login')
+    post_data = {'username' : username,
+                 'password' : password}
+    postfields = urlencode(post_data)
+    c.setopt(c.POSTFIELDS, postfields)
+    c.setopt(c.WRITEDATA, buffer)
+    c.perform()
+    print('Status: %d' % c.getinfo(c.RESPONSE_CODE))
+    c.close()
+
+    body = buffer.getvalue()
+    print(body.decode('iso-8859-1'))
+
+#login('technovendors','helloworld')
 
