@@ -1,12 +1,12 @@
 import pycurl
 from urllib.parse import urlencode
 
-base_url = 'http://54.152.49.226:7000/api/v1/'
-c = pycurl.Curl()
+base_url = 'http://54.152.49.226:7000/auth/register'
 
 def post():
-    c.setopt(c.URL, base_url + 'register')
-    post_data = {'username' : 'technovendors',
+    c = pycurl.Curl()
+    c.setopt(c.URL, base_url)
+    post_data = {'username' : 'Gotiya',
                  'password' : 'helloworld',
                  'fullname' : 'Hello World'}
     # Form data must be provided already urlencoded.
@@ -18,6 +18,8 @@ def post():
     c.perform()
     # HTTP response code, e.g. 200.
     print('Status: %d' % c.getinfo(c.RESPONSE_CODE))
+    c.close()
 
 post()
-c.close()
+
+
