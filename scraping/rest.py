@@ -4,9 +4,12 @@ from urllib.parse import urlencode
 
 base_url = 'http://54.152.49.226:7000/'
 
-def post(url, postfields):
+def post(url, postfields, headers = {}):
+    headers = ["%s: %s" % (key, val) for key, val in headers.items()]
     buffer = BytesIO()
+
     c = pycurl.Curl()
+    c.setopt(c.HTTPHEADER, headers)
     c.setopt(c.URL, base_url + url)
     c.setopt(c.POSTFIELDS, postfields)
     c.setopt(c.WRITEDATA, buffer)
@@ -32,5 +35,4 @@ def login(username, password):
     body = post('auth/login', postfields).getvalue()
     print(body.decode('iso-8859-1'))
 
-#login('technovendors','helloworld')
-
+login('technovendors','helloworld')
