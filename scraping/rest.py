@@ -19,6 +19,20 @@ def post(url, postfields, headers = {}):
     return buffer
     
 
+def get(url, token):
+    headers = ["x-access-token: " + token]
+    buffer = BytesIO()
+    
+    c = pycurl.Curl()
+    c.setopt(c.HTTPHEADER, headers)
+    c.setopt(c.URL, base_url + url)
+    c.setopt(c.WRITEDATA, buffer)
+    c.perform()
+    print('Status: %d' % c.getinfo(c.RESPONSE_CODE))
+    c.close()
+    print(buffer.getvalue().decode('iso-8859-1'))
+    
+
 def register(username, password, fullname):
     post_data = {'username' : username,
                  'password' : password,
@@ -33,6 +47,8 @@ def login(username, password):
                  'password' : password}
     postfields = urlencode(post_data)
     body = post('auth/login', postfields).getvalue()
-    print(body.decode('iso-8859-1'))
+    data = body.decode('iso-8859-1').split(',')[-1].split(':')[1][1:-2]
+    return data
 
-login('technovendors','helloworld')
+#token = login('bond007', 'spectre')
+#get('me', token)
