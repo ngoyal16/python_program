@@ -12,6 +12,11 @@ def getDigitalData(url):
     scripts = soup.find_all('script')
 
     digitalData = {}
+    dateclose = soup.findAll('div', {'class':'cf margin-bottom-5'})
+    for i in dateclose:
+        if 'Closes' in i.getText():
+            digitalData['JobDateClose'] = i.getText().replace('\t','').replace('\n','').replace('\r','').replace('Closes', '') 
+
     for script in scripts:
         scriptData = str(script.string).strip().replace('\n', ' ')
         if(pattern.match(scriptData)):
