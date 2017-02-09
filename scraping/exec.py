@@ -16,20 +16,22 @@ def getDigitalData(url):
         scriptData = str(script.string).strip().replace('\n', ' ')
         if(pattern.match(scriptData)):
             data = re.sub(r"\s+", " ",  scriptData)
-            print(data)
-            data = data.split("} if (")[0]
             data = data.lstrip("var ClientGoogleTagManagerDataLayer = ")
             data = data.split(',')
-            '''
-            for i in range(len(data)):
-                subdata = data[i].split(',')[0].split(': ')
-                subdata[0] = subdata[0][subdata[0].find(' ')+1:]
-                digitalData[subdata[0]] = (subdata[1]).replace('\"', '')
-           '''     
-    #print(data)
 
-getDigitalData('https://www.exec-appointments.com/job/1463080/chief-financial-officer/')
-'''
+            for i in range(len(data)):
+                subdata = data[i].split(': ')
+                subdata[0] = subdata[0][subdata[0].find(' ')+1:].replace('\'', '')
+                try:
+                    digitalData[subdata[0]] = (subdata[1]).replace('\'', '')
+                    if i==len(data)-1:
+                        digitalData[subdata[0]] = (subdata[1]).replace('}];', '')
+                except:
+                    pass
+
+    return digitalData
+
+
 def getSoup(url):
     headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
     res = requests.get(base_url + url, headers = headers)
@@ -51,7 +53,7 @@ url = '/jobs'
 for param in (position, job_type, sector, salary, location, contract_type, hours):
     if param != '/':
         url += param
-print(url)
+#print(url)
 
 
 #total_pages = ceil(int(getSoup(url).select('h2')[0].getText().split()[1])/20)
@@ -70,7 +72,9 @@ for page in range(1, total_pages+1):
         data['Salary'] = s[i].select('p span')[1].getText()
         data['Company'] = s[i].select('p span')[2].getText()
 
+        data.update(getDigitalData(base_url + data['Link']))
+        
         for key,value in data.items():
             print(key + " : " + value)
 
-'''
+
