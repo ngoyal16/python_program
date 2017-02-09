@@ -16,6 +16,7 @@ def getDigitalData(url):
         scriptData = str(script.string).strip().replace('\n', ' ')
         if(pattern.match(scriptData)):
             data = re.sub(r"\s+", " ",  scriptData)
+            data = data.split("'' }];")[0]
             data = data.lstrip("var ClientGoogleTagManagerDataLayer = ")
             data = data.split(',')
 
@@ -24,8 +25,6 @@ def getDigitalData(url):
                 subdata[0] = subdata[0][subdata[0].find(' ')+1:].replace('\'', '')
                 try:
                     digitalData[subdata[0]] = (subdata[1]).replace('\'', '')
-                    if i==len(data)-1:
-                        digitalData[subdata[0]] = (subdata[1]).replace('}];', '')
                 except:
                     pass
 
