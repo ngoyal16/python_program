@@ -62,16 +62,17 @@ for page in range(1, total_pages+1):
     s = soup.select('.lister__item')
     #print(len(s))
     
-    for i in range(len(s)):
+    for i in range(1):#len(s)):
         data = {}
         print('---------------------------------')
-        data['Link'] = s[i].select('a')[0].get('href')
-        data['Position'] = s[i].select('a')[0].getText()
-        data['Location'] = s[i].select('p span')[0].getText()
-        data['Salary'] = s[i].select('p span')[1].getText()
-        data['Company'] = s[i].select('p span')[2].getText()
+        data['job_link'] = s[i].select('a')[0].get('href')
+        data['job_position'] = s[i].select('a')[0].getText()
+        data['job_location'] = s[i].select('p span')[0].getText()
+        data['job_salary'] = s[i].select('p span')[1].getText()
+        data['job_company'] = s[i].select('p span')[2].getText()
+        data['job_id'] = data['job_link'].split('/')[2]
 
-        data.update(getDigitalData(base_url + data['Link']))
+        data.update(getDigitalData(base_url + data['job_link']))
         
         for key,value in data.items():
             print(key + " : " + value)
