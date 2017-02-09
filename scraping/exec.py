@@ -3,7 +3,19 @@ from bs4 import BeautifulSoup
 from math import ceil
 
 base_url = 'https://www.exec-appointments.com'
-url = '/jobs/uk-pound/united-kingdom/english/'
+
+position = '/'
+responsibilities = '/'
+sector = '/'
+salary = '/'
+location = '/united-kingdom'
+contract_type = '/contract'
+
+url = '/jobs'
+for param in (position, responsibilities, sector, salary, location, contract_type):
+    if param != '/':
+        url += param
+print(url)
 
 def getSoup(url):
     headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
@@ -13,12 +25,12 @@ def getSoup(url):
     return soup
 
 
-total_pages = ceil(int(getSoup(url).select('h2')[0].getText().split()[1])/20)
+#total_pages = ceil(int(getSoup(url).select('h2')[0].getText().split()[1])/20)
 total_pages = 1 # Comment for full data.
-for page in range(total_pages+1):
+for page in range(1, total_pages+1):
     soup = getSoup(url + str(page))
     s = soup.select('.lister__item')
-
+    
     for i in range(len(s)):
         data = {}
         print('---------------------------------')
@@ -28,6 +40,5 @@ for page in range(total_pages+1):
         data['Salary'] = s[i].select('p span')[1].getText()
         data['Company'] = s[i].select('p span')[2].getText()
 
-        
         for key,value in data.items():
             print(key + " : " + value)
